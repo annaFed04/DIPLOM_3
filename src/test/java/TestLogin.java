@@ -62,7 +62,7 @@ public class TestLogin extends TestBase {
     public void loginViaPersonalAccountButtonTest() {
         driver.get(Constants.BASE_URL);
 
-        homePage.enterPersonalAccountButton();
+        homePage.clickPersonalAccountButton();;
         loginPage.loginUser(testUser.getEmail(), testUser.getPassword());
 
         homePage.waitCheckoutButton();
