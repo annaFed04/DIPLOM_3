@@ -39,6 +39,16 @@ public class PageHome {
         new WebDriverWait(driver, Duration.ofSeconds(15))
                 .until(ExpectedConditions.visibilityOfElementLocated(placeOrderButton));
     }
+    @Step("Проверка отображения кнопки 'Оформить заказ'")
+    public boolean isCheckoutButtonDisplayed() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(placeOrderButton)).isDisplayed();
+    }
+
+    @Step("Получение текста кнопки 'Оформить заказ'")
+    public String getCheckoutButtonText() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(placeOrderButton)).getText();
+    }
+
 
     @Step("Ожидание появления кнопки «Личный Кабинет»")
     public void waitForPersonalAccountButton() {

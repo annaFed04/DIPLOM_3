@@ -1,4 +1,4 @@
-import Static.Constants;
+import static1.Constants;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;

@@ -1,4 +1,4 @@
-import Static.Constants;
+import static1.Constants;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -13,6 +13,8 @@ import userProfile.StepUser;
 import userProfile.User;
 
 import static org.junit.Assert.assertTrue;
+import pages.*;
+
 
 public class TestLogin extends TestBase {
 
@@ -48,12 +50,20 @@ public class TestLogin extends TestBase {
     public void loginViaMainPageButtonTest() {
         driver.get(Constants.BASE_URL);
 
+        // Шаг 1: Клик на кнопку "Войти в аккаунт"
         homePage.clickEnterAccountButton();
+
+        // Шаг 2: Ввод учетных данных и вход
         loginPage.loginUser(testUser.getEmail(), testUser.getPassword());
 
+        // Шаг 3: Ожидание появления кнопки "Оформить заказ"
         homePage.waitCheckoutButton();
-        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается",
-                driver.findElement(By.xpath(".//button[text()='Оформить заказ']")).isDisplayed());
+
+        // Шаг 4: Проверка, что кнопка "Оформить заказ" отображается
+        boolean isButtonDisplayed = homePage.isCheckoutButtonDisplayed();
+
+        // Проверка: сравниваем ожидаемый результат (true) с актуальным
+        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается", isButtonDisplayed);
     }
 
     @Test
@@ -62,12 +72,20 @@ public class TestLogin extends TestBase {
     public void loginViaPersonalAccountButtonTest() {
         driver.get(Constants.BASE_URL);
 
-        homePage.clickPersonalAccountButton();;
+        // Шаг 1: Клик на кнопку "Личный кабинет"
+        homePage.clickPersonalAccountButton();
+
+        // Шаг 2: Ввод учетных данных и вход
         loginPage.loginUser(testUser.getEmail(), testUser.getPassword());
 
+        // Шаг 3: Ожидание появления кнопки "Оформить заказ"
         homePage.waitCheckoutButton();
-        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается",
-                driver.findElement(By.xpath(".//button[text()='Оформить заказ']")).isDisplayed());
+
+        // Шаг 4: Проверка отображения кнопки
+        boolean isButtonDisplayed = homePage.isCheckoutButtonDisplayed();
+
+        // Проверка
+        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается", isButtonDisplayed);
     }
 
     @Test
@@ -76,12 +94,20 @@ public class TestLogin extends TestBase {
     public void loginViaRegisterFormLinkTest() {
         driver.get(Constants.PAGE_REGISTER);
 
-        registerPage.clickLoginLink();  // метод из PageRegister
+        // Шаг 1: Клик на ссылку "Войти" на странице регистрации
+        registerPage.clickLoginLink();
+
+        // Шаг 2: Ввод учетных данных и вход
         loginPage.loginUser(testUser.getEmail(), testUser.getPassword());
 
+        // Шаг 3: Ожидание появления кнопки "Оформить заказ"
         homePage.waitCheckoutButton();
-        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается",
-                driver.findElement(By.xpath(".//button[text()='Оформить заказ']")).isDisplayed());
+
+        // Шаг 4: Проверка отображения кнопки
+        boolean isButtonDisplayed = homePage.isCheckoutButtonDisplayed();
+
+        // Проверка
+        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается", isButtonDisplayed);
     }
 
     @Test
@@ -90,12 +116,20 @@ public class TestLogin extends TestBase {
     public void loginViaForgotPasswordLinkTest() {
         driver.get(Constants.BASE_URL + "/forgot-password");
 
-        forgotPasswordPage.clickSignInLink();  // метод из PageForgotPassword
+        // Шаг 1: Клик на ссылку "Войти" на странице восстановления пароля
+        forgotPasswordPage.clickSignInLink();
+
+        // Шаг 2: Ввод учетных данных и вход
         loginPage.loginUser(testUser.getEmail(), testUser.getPassword());
 
+        // Шаг 3: Ожидание появления кнопки "Оформить заказ"
         homePage.waitCheckoutButton();
-        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается",
-                driver.findElement(By.xpath(".//button[text()='Оформить заказ']")).isDisplayed());
+
+        // Шаг 4: Проверка отображения кнопки
+        boolean isButtonDisplayed = homePage.isCheckoutButtonDisplayed();
+
+        // Проверка
+        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается", isButtonDisplayed);
     }
 
     @After
