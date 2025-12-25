@@ -1,10 +1,9 @@
-import static1.Constants;
+import statik.Constants;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import pages.PageForgotPassword;
 import pages.PageHome;
 import pages.PageLogin;
@@ -13,7 +12,6 @@ import userProfile.StepUser;
 import userProfile.User;
 
 import static org.junit.Assert.assertTrue;
-import pages.*;
 
 
 public class TestLogin extends TestBase {

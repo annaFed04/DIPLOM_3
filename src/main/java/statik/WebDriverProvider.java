@@ -1,4 +1,4 @@
-package static1;
+package statik;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;

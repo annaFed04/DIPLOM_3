@@ -1,5 +1,5 @@
-import static1.Constants;
-import static1.WebDriverProvider;
+import statik.Constants;
+import statik.WebDriverProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;

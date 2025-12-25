@@ -1,6 +1,6 @@
 package userProfile;
 
-import static1.Constants;
+import statik.Constants;
 import io.qameta.allure.Step;
 
 import io.restassured.builder.RequestSpecBuilder;
