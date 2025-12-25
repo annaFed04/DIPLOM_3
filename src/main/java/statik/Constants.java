@@ -8,4 +8,5 @@ public class Constants {
 
     public static final String PAGE_REGISTER = BASE_URL + "/register";
     public static final String PAGE_LOGIN = BASE_URL + "/login";
+    public static final String PAGE_FORGOT_PASSWORD = BASE_URL + "/forgot-password";
 }

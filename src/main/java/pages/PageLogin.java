@@ -58,4 +58,14 @@ public class PageLogin {
         inputPassword(password);
         clickLoginButton();
     }
+    @Step("Проверить, что страница логина открыта")
+    public boolean isLoginPageOpened() {
+        try {
+
+            By loginButton = By.xpath("//button[text()='Войти']");
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(loginButton)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

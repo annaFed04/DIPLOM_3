@@ -1,4 +1,3 @@
-import statik.Constants;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -32,9 +31,10 @@ public class TestLogin extends TestBase {
         forgotPasswordPage = new PageForgotPassword(driver);
         stepUser = new StepUser();
 
+        // Создаем тестового пользователя через API
         testUser = new User()
                 .withName("Мария-Мерабелла")
-                .withEmail("test" + System.currentTimeMillis() + "@пипец.com")
+                .withEmail("test" + System.currentTimeMillis() + "@example.com")
                 .withPassword("password314");
 
         var response = stepUser.createNewUser(testUser);
@@ -46,94 +46,74 @@ public class TestLogin extends TestBase {
     @DisplayName("Вход по кнопке 'Войти в аккаунт' на главной странице")
     @Description("Проверка успешного входа через кнопку на главной")
     public void loginViaMainPageButtonTest() {
-        driver.get(Constants.BASE_URL);
-
-        // Шаг 1: Клик на кнопку "Войти в аккаунт"
+        homePage.openHomePage();
         homePage.clickEnterAccountButton();
 
-        // Шаг 2: Ввод учетных данных и вход
+        assertTrue("Страница логина не открылась", loginPage.isLoginPageOpened());
+
         loginPage.loginUser(testUser.getEmail(), testUser.getPassword());
+        homePage.waitForCheckoutButton();
 
-        // Шаг 3: Ожидание появления кнопки "Оформить заказ"
-        homePage.waitCheckoutButton();
-
-        // Шаг 4: Проверка, что кнопка "Оформить заказ" отображается
-        boolean isButtonDisplayed = homePage.isCheckoutButtonDisplayed();
-
-        // Проверка: сравниваем ожидаемый результат (true) с актуальным
-        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается", isButtonDisplayed);
+        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается",
+                homePage.isCheckoutButtonDisplayed());
     }
 
     @Test
     @DisplayName("Вход через кнопку 'Личный кабинет'")
     @Description("Проверка успешного входа через кнопку Личный кабинет")
     public void loginViaPersonalAccountButtonTest() {
-        driver.get(Constants.BASE_URL);
-
-        // Шаг 1: Клик на кнопку "Личный кабинет"
+        homePage.openHomePage();
         homePage.clickPersonalAccountButton();
 
-        // Шаг 2: Ввод учетных данных и вход
+        assertTrue("Страница логина не открылась", loginPage.isLoginPageOpened());
+
         loginPage.loginUser(testUser.getEmail(), testUser.getPassword());
+        homePage.waitForCheckoutButton();
 
-        // Шаг 3: Ожидание появления кнопки "Оформить заказ"
-        homePage.waitCheckoutButton();
-
-        // Шаг 4: Проверка отображения кнопки
-        boolean isButtonDisplayed = homePage.isCheckoutButtonDisplayed();
-
-        // Проверка
-        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается", isButtonDisplayed);
+        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается",
+                homePage.isCheckoutButtonDisplayed());
     }
 
     @Test
     @DisplayName("Вход через кнопку в форме регистрации")
     @Description("Проверка перехода на страницу входа из формы регистрации")
     public void loginViaRegisterFormLinkTest() {
-        driver.get(Constants.PAGE_REGISTER);
+        registerPage.openRegistrationPage();
+        assertTrue("Страница регистрации не открылась", registerPage.isRegisterPageLoaded());
 
-        // Шаг 1: Клик на ссылку "Войти" на странице регистрации
         registerPage.clickLoginLink();
+        assertTrue("Страница логина не открылась", loginPage.isLoginPageOpened());
 
-        // Шаг 2: Ввод учетных данных и вход
         loginPage.loginUser(testUser.getEmail(), testUser.getPassword());
+        homePage.waitForCheckoutButton();
 
-        // Шаг 3: Ожидание появления кнопки "Оформить заказ"
-        homePage.waitCheckoutButton();
-
-        // Шаг 4: Проверка отображения кнопки
-        boolean isButtonDisplayed = homePage.isCheckoutButtonDisplayed();
-
-        // Проверка
-        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается", isButtonDisplayed);
+        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается",
+                homePage.isCheckoutButtonDisplayed());
     }
 
     @Test
     @DisplayName("Вход через кнопку в форме восстановления пароля")
     @Description("Проверка перехода на страницу входа из формы восстановления пароля")
     public void loginViaForgotPasswordLinkTest() {
-        driver.get(Constants.BASE_URL + "/forgot-password");
+        forgotPasswordPage.openForgotPasswordPage();
+        assertTrue("Страница восстановления пароля не открылась",
+                forgotPasswordPage.isForgotPasswordPageLoaded());
 
-        // Шаг 1: Клик на ссылку "Войти" на странице восстановления пароля
         forgotPasswordPage.clickSignInLink();
+        assertTrue("Страница логина не открылась", loginPage.isLoginPageOpened());
 
-        // Шаг 2: Ввод учетных данных и вход
         loginPage.loginUser(testUser.getEmail(), testUser.getPassword());
+        homePage.waitForCheckoutButton();
 
-        // Шаг 3: Ожидание появления кнопки "Оформить заказ"
-        homePage.waitCheckoutButton();
-
-        // Шаг 4: Проверка отображения кнопки
-        boolean isButtonDisplayed = homePage.isCheckoutButtonDisplayed();
-
-        // Проверка
-        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается", isButtonDisplayed);
+        assertTrue("Вход не выполнен - кнопка 'Оформить заказ' не отображается",
+                homePage.isCheckoutButtonDisplayed());
     }
 
     @After
     public void cleanUp() {
         // Удаляем тестового пользователя
-        if (testUser.getAccessToken() != null) {
+        if (testUser != null && accessToken != null) {
+            testUser.updateAccessToken(accessToken);
             stepUser.removeUser(testUser);
         }
     }
